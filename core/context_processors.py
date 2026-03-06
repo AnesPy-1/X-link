@@ -17,12 +17,20 @@ def site_context(request):
                 hero_section_text_part1="ساخت سایت و کارت ویزیت",
                 hero_section_text_part2="با ایکس لینک",
                 hero_section_text_description="در چند ثانیه صفحه حرفه‌ای خودت را بساز و منتشر کن.",
+                hero_active_users_text="5,000+",
+                hero_active_users_label="کاربر فعال",
+                hero_templates_text="20+",
+                hero_templates_label="قالب حرفه‌ای",
+                hero_support_text="24/7",
+                hero_support_label="پشتیبانی",
                 footer_section_text_part1="X-Link",
                 footer_telegram_url="https://t.me/AnesPy",
                 footer_linkedin_url="",
                 footer_github_url="",
                 footer_instagram_url="",
                 footer_enamad_badge="",
+                support_url="https://t.me/AnesPy",
+                support_logo=None,
             )
         banners = list(Banners.objects.all())
         data = {

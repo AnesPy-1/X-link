@@ -28,11 +28,58 @@ class SiteContext(models.Model):
         max_length=500,
         help_text="Hero section description text"
     )
+    hero_active_users_text = models.CharField(
+        max_length=50,
+        default="5,000+",
+        help_text="Hero stat number for active users"
+    )
+    hero_active_users_label = models.CharField(
+        max_length=100,
+        default="کاربر فعال",
+        help_text="Hero stat label for active users"
+    )
+    hero_templates_text = models.CharField(
+        max_length=50,
+        default="20+",
+        help_text="Hero stat number for templates"
+    )
+    hero_templates_label = models.CharField(
+        max_length=100,
+        default="قالب حرفه‌ای",
+        help_text="Hero stat label for templates"
+    )
+    hero_support_text = models.CharField(
+        max_length=50,
+        default="24/7",
+        help_text="Hero stat number/text for support"
+    )
+    hero_support_label = models.CharField(
+        max_length=100,
+        default="پشتیبانی",
+        help_text="Hero stat label for support"
+    )
 
     # Footer Content
     footer_section_text_part1 = models.CharField(
         max_length=200,
         help_text="Footer section text"
+    )
+    footer_enamad_badge = models.URLField(
+        null=True,
+        blank=True,
+        help_text="eNamad badge URL/image"
+    )
+
+    support_url = models.URLField(
+        null=True,
+        blank=True,
+        help_text="Support destination URL"
+    )
+    support_logo = models.ImageField(
+        upload_to='support',
+        null=True,
+        blank=True,
+        help_text="Support logo icon for floating action button"
     )
 
     # Social Media Links

@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, AuthenticationForm
 
@@ -54,6 +56,16 @@ class UserSignupForm(forms.ModelForm):
             }
             raise forms.ValidationError(reason_messages.get(result.reason, "نام کاربری نامعتبر است."))
         return result.name
+
+    def clean_full_name(self):
+        full_name = (self.cleaned_data.get("full_name") or "").strip()
+        if len(full_name) < 2:
+            raise forms.ValidationError("نام کامل باید حداقل ۲ حرف باشد.")
+
+        # Supports Persian/Arabic and Latin letters, spaces, hyphen and ZWNJ.
+        if not re.fullmatch(r"[\u0600-\u06FFa-zA-Z\s\u200c\-]+", full_name):
+            raise forms.ValidationError("نام کامل فقط می‌تواند شامل حروف و فاصله باشد.")
+        return full_name
 
 
 class UserLoginForm(AuthenticationForm):

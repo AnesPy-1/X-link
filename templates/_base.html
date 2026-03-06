@@ -10,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="{{ site_context.logo.url }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     {% block styles %} {% endblock %}
@@ -133,91 +133,53 @@
         <div class="preloader-panel" role="status" aria-live="polite" aria-label="در حال بارگذاری صفحه">
             <p class="preloader-brand">X-Link</p>
             <div class="preloader-orbit" aria-hidden="true"></div>
-            <p class="preloader-text">در حال آماده سازی تجربه سریع تر...</p>
+            <p class="preloader-text">در حال آماده‌سازی...</p>
             <div class="preloader-track" aria-hidden="true">
                 <div class="preloader-bar" data-preloader-bar></div>
             </div>
-            <p class="preloader-percent" data-preloader-percent>0%</p>
+            <p class="preloader-percent" data-preloader-percent>...</p>
         </div>
     </div>
 
     <!-- Preloader Script -->
     <script>
     (function () {
-        const SHOW_DELAY_MS = 120;
-        const MAX_WAIT_MS = 5000;
-        const MIN_VISIBLE_MS = 260;
-        const PROGRESS_CAP = 92;
-
-        let shownAt = 0;
-        let progress = 0;
+        const SHOW_DELAY_MS = 140;
+        const FORCE_HIDE_MS = 2200;
         let shown = false;
-        let finished = false;
-        let rafId = null;
         let showTimer = null;
+        let hideTimer = null;
 
-        const dom = {
-            overlay: null,
-            bar: null,
-            percent: null
-        };
+        const overlay = document.getElementById('preloader');
+        const bar = document.querySelector('[data-preloader-bar]');
+        const percent = document.querySelector('[data-preloader-percent]');
 
-        const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+        if (!overlay) return;
 
-        function render() {
-            if (!dom.bar || !dom.percent) return;
-            dom.bar.style.width = progress + '%';
-            dom.percent.textContent = Math.round(progress) + '%';
-        }
-
-        function tick() {
-            if (finished) return;
-            const step = 0.4 + ((PROGRESS_CAP - progress) * 0.05);
-            progress = clamp(progress + step, 0, PROGRESS_CAP);
-            render();
-            rafId = window.requestAnimationFrame(tick);
+        function setProgress(value) {
+            if (bar) bar.style.width = value + '%';
+            if (percent) percent.textContent = value + '%';
         }
 
         function show() {
-            if (shown || finished) return;
+            if (shown) return;
             shown = true;
-            shownAt = performance.now();
             document.body.classList.add('preloader-active');
-            tick();
+            setProgress(78);
         }
 
-        function teardown() {
-            if (dom.overlay) {
-                dom.overlay.setAttribute('aria-hidden', 'true');
-            }
+        function hide() {
+            if (showTimer) window.clearTimeout(showTimer);
+            if (hideTimer) window.clearTimeout(hideTimer);
+            setProgress(100);
+            overlay.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('preloader-active');
             document.body.classList.add('preloader-done');
         }
 
-        function complete() {
-            if (finished) return;
-            finished = true;
-            if (showTimer) window.clearTimeout(showTimer);
-            if (rafId) window.cancelAnimationFrame(rafId);
-            progress = 100;
-            render();
-
-            const visibleElapsed = shown ? (performance.now() - shownAt) : 0;
-            const minDelay = shown ? Math.max(0, MIN_VISIBLE_MS - visibleElapsed) : 0;
-            window.setTimeout(teardown, minDelay + 120);
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            dom.overlay = document.getElementById('preloader');
-            dom.bar = document.querySelector('[data-preloader-bar]');
-            dom.percent = document.querySelector('[data-preloader-percent]');
-            if (!dom.overlay) return;
-            render();
-            showTimer = window.setTimeout(show, SHOW_DELAY_MS);
-        });
-
-        window.addEventListener('load', complete, { once: true });
-        window.setTimeout(complete, MAX_WAIT_MS);
+        showTimer = window.setTimeout(show, SHOW_DELAY_MS);
+        window.addEventListener('load', hide, { once: true });
+        hideTimer = window.setTimeout(hide, FORCE_HIDE_MS);
     })();
     </script>
 
@@ -298,47 +260,20 @@
 <footer class="footer">
     <div class="container">
         <div class="footer-content">
-            <!-- برند و شعار -->
             <div class="footer-brand">
                 <h3 class="footer-logo">{{ site_context.site_name }}</h3>
                 <p class="footer-tagline">{{ site_context.hero_section_text_part2 }}</p>
             </div>
 
-            <!-- لینک‌های اصلی -->
             <div class="footer-section">
-                <h4 class="footer-section-title">محصولات</h4>
+                <h4 class="footer-section-title">دسترسی سریع</h4>
                 <ul class="footer-links">
-                    <li><a href="#features">قابلیت‌ها</a></li>
                     <li><a href="#templates">قالب‌ها</a></li>
                     <li><a href="{% url 'home' %}#pricing-landing">قیمت</a></li>
+                    <li><a href="{% url 'about' %}">درباره ما</a></li>
                 </ul>
             </div>
 
-            <!-- درباره -->
-            <div class="footer-section">
-                <h4 class="footer-section-title">X-link</h4>
-                <ul class="footer-links">
-                    <li><a href="#about">درباره ما</a></li>
-                    <li><a href="#">تماس با ما</a></li>
-                </ul>
-            </div>
-
-            <!-- تیم -->
-            <div class="footer-section">
-                <h4 class="footer-section-title">ایکس تیم</h4>
-                <ul class="footer-links footer-team">
-                    <li>
-                        <span class="team-role">Founder & Developer:</span>
-                        <a href="https://t.me/AnesPy" target="_blank" rel="noopener noreferrer">@AnesPy</a>
-                    </li>
-                    <li>
-                        <span class="team-role">Co-founder:</span>
-                        <a href="https://t.me/PokerJoon" target="_blank" rel="noopener noreferrer">@PokerJoon</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- شبکه‌های اجتماعی -->
             <div class="footer-section footer-social-section">
                 <h4 class="footer-section-title">شبکه‌های اجتماعی</h4>
                 <div class="social-icons">
@@ -373,21 +308,11 @@
 <div class="footer-bottom">
     <p>© 2025 X-Link — تمامی حقوق محفوظ است.</p>
     <p>
-        Made with ❤️ and lots of ☕️ by
-        <a href="https://t.me/AnesPy" target="_blank" rel="noopener noreferrer" class="footer-credit">
-            @AnesPy
-        </a>
+        made with ❤️ and lots of ☕ by
+        <a href="https://t.me/AnesPy" target="_blank" rel="noopener noreferrer" class="footer-credit-link">@AnesPy</a>
+        &
+        <a href="https://t.me/PokerJoon" target="_blank" rel="noopener noreferrer" class="footer-credit-link">@Pokerjoon</a>
     </p>
-
-    <style>
-        .footer-credit {
-            color: inherit;        /* هم‌رنگ متن اطراف */
-            text-decoration: none; /* حذف underline */
-        }
-        .footer-credit:hover {
-            opacity: 0.8;          /* افکت ملایم روی هاور */
-        }
-    </style>
 </div>
 
     </div>

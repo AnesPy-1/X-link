@@ -14,29 +14,33 @@ class SiteContextAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
     fieldsets = (
-        ('Ø§Ø·Ù„Ø§Ø¹Ø§Øª Ù¾Ø§ÛŒÙ‡', {
+        ('اطلاعات پایه', {
             'fields': ('site_name', 'logo')
         }),
-        ('Ù…Ø­ØªÙˆØ§ÛŒ Ù‚Ù‡Ø±Ù…Ø§Ù†', {
+        ('محتوای هیرو', {
             'fields': (
                 'hero_section_text_part1',
                 'hero_section_text_part2',
-                'hero_section_text_description'
+                'hero_section_text_description',
+                ('hero_active_users_text', 'hero_active_users_label'),
+                ('hero_templates_text', 'hero_templates_label'),
+                ('hero_support_text', 'hero_support_label'),
             ),
             'classes': ('collapse',)
         }),
-        ('ÙÙˆØªØ±', {
-            'fields': ('footer_section_text_part1',),
+        ('فوتر', {
+            'fields': ('footer_section_text_part1', 'footer_enamad_badge'),
             'classes': ('collapse',)
         }),
-        ('Ø´Ø¨Ú©Ù‡â€ŒÙ‡Ø§ÛŒ Ø§Ø¬ØªÙ…Ø§Ø¹ÛŒ', {
+        ('پشتیبانی و شبکه‌های اجتماعی', {
             'fields': (
+                ('support_url', 'support_logo'),
                 ('footer_telegram_url', 'footer_linkedin_url'),
                 ('footer_github_url', 'footer_instagram_url'),
             ),
             'classes': ('collapse',)
         }),
-        ('ØªØ§Ø±ÛŒØ®Ú†Ù‡', {
+        ('تاریخچه', {
             'fields': ('created_at', 'updated_at'),
             'classes': ('collapse',)
         }),
@@ -71,13 +75,13 @@ class CustomerAdmin(admin.ModelAdmin):
     list_editable = ('is_test', 'is_active', 'display_order')
 
     fieldsets = (
-        ('Ø§Ø·Ù„Ø§Ø¹Ø§Øª Ø´Ø±Ú©Øª', {
+        ('اطلاعات شرکت', {
             'fields': ('company_name', 'company_url',)
         }),
-        ('Ù¾ÛŒÚ©Ø±Ø¨Ù†Ø¯ÛŒ', {
+        ('پیکربندی', {
             'fields': ('site_context', 'is_test', 'is_active', 'display_order')
         }),
-        ('ØªØ§Ø±ÛŒØ®Ú†Ù‡', {
+        ('تاریخچه', {
             'fields': ('created_at',),
             'classes': ('collapse',)
         }),
@@ -89,7 +93,7 @@ class CustomerAdmin(admin.ModelAdmin):
     def get_site_context(self, obj):
         """Display site context name."""
         return obj.site_context.site_name
-    get_site_context.short_description = 'Ø³Ø§ÛŒØª'
+    get_site_context.short_description = 'سایت'
     get_site_context.admin_order_field = 'site_context__site_name'
 
 
@@ -104,10 +108,10 @@ class BannersAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
 
     fieldsets = (
-        ('Ù…Ø­ØªÙˆØ§', {
+        ('محتوا', {
             'fields': ('title', 'description')
         }),
-        ('ØªØ§Ø±ÛŒØ®Ú†Ù‡', {
+        ('تاریخچه', {
             'fields': ('created_at', 'updated_at'),
             'classes': ('collapse',)
         }),

@@ -4750,3 +4750,72 @@ body {
     }
 }
 
+/* ============================================
+   BASE UI REFRESH (NAV + FOOTER)
+   ============================================ */
+.navbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(10, 15, 31, 0.96), rgba(10, 15, 31, 0.88));
+}
+
+.navbar.scrolled {
+    background: linear-gradient(180deg, rgba(10, 15, 31, 0.98), rgba(10, 15, 31, 0.94));
+}
+
+.logo-text {
+    font-family: 'Vazirmatn', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.nav-link {
+    font-weight: 600;
+}
+
+.nav-user-btn {
+    font-weight: 700;
+}
+
+.footer {
+    background: linear-gradient(180deg, rgba(9, 13, 28, 0.92), rgba(9, 13, 28, 1));
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 56px 0 24px;
+}
+
+.footer-content {
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 24px;
+}
+
+.footer-tagline {
+    opacity: 0.78;
+}
+
+.footer-links a {
+    opacity: 0.9;
+}
+
+.footer-bottom {
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-credit-link {
+    color: rgba(245, 248, 255, 0.92);
+    text-decoration: none;
+    font-family: 'Vazirmatn', sans-serif;
+    font-weight: 700;
+    transition: color 0.22s ease;
+}
+
+.footer-credit-link:hover {
+    color: #3A86FF;
+}
+
+@media (max-width: 900px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
